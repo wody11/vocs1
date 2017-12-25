@@ -1,0 +1,55 @@
+<script>
+    var qj;
+    var url1 = "http://www.ntskytech.com/apis";
+    var url2 = "http://www.ntskytech.com/api";
+    var name = $("input[name='fname']").val();
+    var pw = $("input[name='lname']").val();
+    function getData3(url,one,two){
+        var defer = $.Deferred();
+        $.ajax({
+            url : url,
+            data: {one, two},
+            dataType: 'JSON',
+            type: 'post',
+            success: function(data){
+                defer.resolve(data)
+            }
+        });
+        return defer.promise();
+    }
+
+    $("button").click(function () {
+        $.mobile.loading('show', {
+            text: '加载中...', //加载器中显示的文字
+            textVisible: true, //是否显示文字
+            theme: 'a',        //加载器主题样式a-e
+            textonly: false,   //是否只显示文字
+            html: ""           //要显示的html内容，如图片等
+        });
+        $.when(getData3(url1, "userName:" + name, "password:" + pw)).done(function (data) {
+            var date = data.result;
+            if (date.length > 10) {
+                var obj = eval("(" + date + ")");
+                qj = obj.sessionId;
+                $.when(getData3(url2, "areaType:", "sessionId:" + qj)).done(function (data) {
+                    var date = jQuery.parseJSON(data.result);
+                    var obj = date.modelSituationOverall;
+                    var obj1 = date.modelSituationGas;
+                    $("body").empty();
+                    $("body").append("<div id=\"main\" style=\"height:300px\"></div>" + "</br>" + "<div id=\"main1\" style=\"height:300px\"></div>")
+                    tubiao1(obj.normal, obj.exceed, obj.disconnection, obj.publishTime);
+                    tubiao2(obj1.ch4, obj1.thc, obj1.nmhc);
+                });
+            }
+            else {
+                $("#popdiv").text("账号或密码输入出错!!");
+
+            }
+
+            $.mobile.loading('hide');
+        });
+    });
+
+
+
+</script>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>vocs</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+
+        .login-input-box {
+            width: 80%;
+            margin: auto;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .logo p {
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .user, .lock, .mail {
+            float: left;
+            width: 85%;
+            height: 35px;
+            border: none;
+            padding-left: 3%;
+            line-height: 2.4rem;
+            font-size: 1.2rem;
+            outline: none;
+            color: #4d4d4d;
+            background: none;
+        }
+
+        .line1, .line2, .line3 {
+            width: 98%;
+            overflow: hidden;
+            border-bottom: 1px solid #aaa;
+            padding-left: 2%;
+            margin-top: 40px;
+        }
+
+        .login-wrap .line1 {
+            margin-top: 80px;
+        }
+
+        .line1 img, .line2 img, .line3 img {
+            float: left;
+            padding-top: 2px;
+        }
+
+        .register, .forgive {
+            margin-top: 20px;
+            color: #4d4d4d !important;
+            font-weight: normal;
+            padding: 0px 2%;
+        }
+
+        .register {
+            float: left;
+        }
+
+        .forgive {
+            float: right;
+        }
+
+        .chose .login {
+            float: left;
+            margin: 40px 0;
+            width: 100%;
+            font-size: 1.2rem;
+            line-height: 2.6rem;
+            text-align: center;
+            color: #4d4d4d !important;
+            background: #e5e5e5;
+            border-radius: 20px;}
+    </style>
+</head>
+<body>
+<div data-role="page" id="pageone">
+    <div data-role="header">
+        <p style="font-size:2.2rem;text-align: center">污染源在线监控</p>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div class="login-input-box">
+            <div class="logo" align="center">
+                <img src="1.png"style="height: 60px">
+                <p> </p>
+            </div>
+            <div class="line1">
+                <img src="#" href="#" class="ui-btn ui-corner-all ui-icon-user ui-btn-icon-notext">
+                <input type="text" name="fname" class="user" value="用户名" onfocus="if(value=='用户名') {value=''}"
+                       onblur="if (value=='') {value='用户名'}" data-role="none">
+            </div>
+            <div class="line2">
+                <img src="#" class="ui-btn ui-corner-all ui-icon-lock ui-btn-icon-notext">
+                <input type="text" name="lname" class="lock" value="密码" onfocus="if(value=='密码') {value=''}"
+                       onblur="if (value=='') {value='密码'}" data-role="none">
+            </div>
+            <div class="chose">
+                <button class="login">登陆</button>
+            </div>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h1>如东沿海经济开发区管理委员会</h1>
+        <h3>数据中心技术支持</h3></div>
+</div>
+</body>
+</html>

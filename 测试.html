@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>vocs</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+
+        .login-input-box {
+            width: 80%;
+            margin: auto;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .logo p {
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .user, .lock, .mail {
+            float: left;
+            width: 85%;
+            height: 35px;
+            border: none;
+            padding-left: 3%;
+            line-height: 2.4rem;
+            font-size: 1.2rem;
+            outline: none;
+            color: #4d4d4d;
+            background: none;
+        }
+
+        .line1, .line2, .line3 {
+            width: 98%;
+            overflow: hidden;
+            border-bottom: 1px solid #aaa;
+            padding-left: 2%;
+            margin-top: 40px;
+        }
+
+        .login-wrap .line1 {
+            margin-top: 80px;
+        }
+
+        .line1 img, .line2 img, .line3 img {
+            float: left;
+            padding-top: 2px;
+        }
+
+        .register, .forgive {
+            margin-top: 20px;
+            color: #4d4d4d !important;
+            font-weight: normal;
+            padding: 0px 2%;
+        }
+
+        .register {
+            float: left;
+        }
+
+        .forgive {
+            float: right;
+        }
+
+        .chose .login {
+            float: left;
+            margin: 40px 0;
+            width: 100%;
+            font-size: 1.2rem;
+            line-height: 2.6rem;
+            text-align: center;
+            color: #4d4d4d !important;
+            background: #e5e5e5;
+            border-radius: 20px;}
+    </style>
+    <script>
+        var tubiao1 = function (zc, cb, lx, sj) {
+
+            var myChart = echarts.init(document.getElementById('main'));
+
+            var option = {
+                title: {
+                    text: "企业在线监控情况汇总表",
+                    subtext: "统计数据时间点" + sj,
+                    x: "center"
+                },
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: "vertical",
+                    x: "left",
+                    data: ["正常企业", "超标企业", "断线企业"]
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: true
+                        },
+                        restore: {
+                            show: true
+                        },
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: "汇总情况",
+                        type: "pie",
+                        radius: "55%",
+                        center: ["50%", "60%"],
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true,
+                                    formatter: "{b}: {c} ({d}%)"
+                                }
+                            }
+                        },
+                        data: [
+                            {
+                                value: zc,
+                                name: "正常企业"
+                            },
+                            {
+                                value: cb,
+                                name: "超标企业"
+                            },
+                            {
+                                value: lx,
+                                name: "断线企业"
+                            }
+                        ]
+                    }
+                ],
+                color: ["rgb(0, 128, 0)", "rgb(255,0,0)", "rgb(255,165,0)"]
+            };
+
+            myChart.setOption(option);
+        };
+        var tubiao2 = function (jw, zt, fj) {
+
+                var myChart = echarts.init(document.getElementById('main1'));
+
+                var option = {
+                    title: {
+                        text: "2017年废气排放总量",
+                        subtext: "单位（顿）",
+                        x: "center"
+                    },
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    legend: {
+                        data: ["排放量"],
+                        x: "left",
+                        y: "center"
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {
+                                show: false
+                            },
+                            dataView: {
+                                show: true,
+                                readOnly: true
+                            },
+                            magicType: {
+                                show: false,
+                                type: ["line", "bar"]
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            }
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [
+                        {
+                            type: "category",
+                            data: ["甲烷", "总烃", "非甲烷总烃"]
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: "value"
+                        }
+                    ],
+                    series: [
+                        {
+                            name: "排放量",
+                            type: "bar",
+                            data: [jw, zt, fj],
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+
+
+                myChart.setOption(option);
+            }
+        ;$(document).ready(function(){
+            var qj;
+            function getData2(url,areaType,sessionId){
+                var defer = $.Deferred();
+                $.ajax({
+                    url : url,
+                    data: {areaType,sessionId},
+                    dataType: 'JSON',
+                    type: 'post',
+                    success: function(data){
+                        defer.resolve(data)
+                    }
+                });
+                return defer.promise();
+            }
+            function getData3(url,userName,password){
+                var defer = $.Deferred();
+                $.ajax({
+                    url : url,
+                    data: {userName,password},
+                    dataType: 'JSON',
+                    type: 'post',
+                    success: function(data){
+                        defer.resolve(data)
+                    }
+                });
+                return defer.promise();
+            }
+
+            $("button").click(function () {
+                var url1 = "http://www.ntskytech.com/apis";
+                var url2 = "http://www.ntskytech.com/api";
+                var name = $("input[name='fname']").val();
+                var pw = $("input[name='lname']").val();
+                $.mobile.loading('show', {
+                    text: '登录中...',
+                    textVisible: true,
+                    theme: 'a',
+                    textonly: false,
+                    html: ""
+                });
+                $.when(getData3(url1,  name, pw)).done(function (data) {
+                    $.mobile.loading('hide');
+                    var date = data.result;
+                    if (date.length > 10) {
+                        var obj = eval("(" + date + ")");
+                        qj = obj.sessionId;
+                        $.when(getData2(url2, "",  qj)).done(function (data) {
+
+                            var date = jQuery.parseJSON(data.result);
+                            var obj = date.modelSituationOverall;
+                            var obj1 = date.modelSituationGas;
+                            var gk=$("<div data-role=\"page\" id=\"pageone\">\n" +
+                                "    <div data-role=\"header\" style=\"text-align: center\">\n" +
+                                "        <p style=\"font-size: large;text-align: center\"><img style=\"vertical-align:middle;height: 30px\"\n" +
+                                "                                                            src=\"./vocs/1.png\"/>污染源在线监控</p>\n" +
+                                "        <div data-role=\"navbar\">\n" +
+                                "            <ul>\n" +
+                                "                <li><a href=\"#\" class=\"ui-btn-active ui-state-persist\" data-icon=\"home\">概况统计</a></li>\n" +
+                                "                <li><a href=\"#pagetwo\" data-icon=\"check\">正常排放企业</a></li>\n" +
+                                "                <li><a href=\"#pagetwo\" data-icon=\"alert\">超标排放企业</a></li>\n" +
+                                "\n" +
+                                "            </ul>\n" +
+                                "        </div>\n" +
+                                "    </div>\n" +
+                                "    <div data-role=\"main\" class=\"ui-content\">\n" +
+                                "        <div id=\"main\" style=\"height: 300px\"></div>\n" +
+                                "        </br>\n" +
+                                "        <div id=\"main1\" style=\"height: 300px\"></div>\n" +
+                                "    </div>\n" +
+                                "    <div data-role=\"footer\" data-position=\"fixed\">\n" +
+                                "        <h2>如东沿海经济开发区管理委员会</br>数据中心技术支持</h2>\n" +
+                                "    </div>\n" +
+                                "</div>\n" +
+                                "<div data-role=\"page\" id=\"pagetwo\">\n" +
+                                "    <div data-role=\"header\">\n" +
+                                "        <p style=\"font-size: large;text-align: center\"><img style=\"vertical-align:middle;height: 30px\"\n" +
+                                "                                                            src=\"./vocs/1.png\"/>污染源在线监控</p>\n" +
+                                "        <div data-role=\"navbar\">\n" +
+                                "            <ul>\n" +
+                                "                <li><a href=\"#\" data-icon=\"home\">概况统计</a></li>\n" +
+                                "                <li><a href=\"#pagetwo\" class=\"ui-btn-active ui-state-persist\" data-icon=\"check\">正常排放企业</a></li>\n" +
+                                "                <li><a href=\"#pagetwo\" data-icon=\"alert\">超标排放企业</a></li>\n" +
+                                "\n" +
+                                "            </ul>\n" +
+                                "        </div>\n" +
+                                "    </div>\n" +
+                                "    <div data-role=\"main\" class=\"ui-content\">\n" +
+                                "\n" +
+                                "    </div>\n" +
+                                "    <div data-role=\"footer\" data-position=\"fixed\">\n" +
+                                "        <h2>如东沿海经济开发区管理委员会</br>数据中心技术支持</h2>\n" +
+                                "    </div>\n" +
+                                "</div>\n" +
+                                "\n" +
+                                "<div data-role=\"page\" id=\"pagethree\">\n" +
+                                "    <div data-role=\"header\">\n" +
+                                "        <p style=\"font-size: large;text-align: center\"><img style=\"vertical-align:middle;height: 30px\"\n" +
+                                "                                                            src=\"./vocs/1.png\"/>污染源在线监控</p>\n" +
+                                "        <div data-role=\"navbar\">\n" +
+                                "            <ul>\n" +
+                                "                <li><a href=\"#\" data-icon=\"home\">概况统计</a></li>\n" +
+                                "                <li><a href=\"#pagetwo\" data-icon=\"check\">正常排放企业</a></li>\n" +
+                                "                <li><a href=\"#pagetwo\" class=\"ui-btn-active ui-state-persist\" data-icon=\"alert\">超标排放企业</a></li>\n" +
+                                "\n" +
+                                "            </ul>\n" +
+                                "        </div>\n" +
+                                "    </div>\n" +
+                                "    <div data-role=\"main\" class=\"ui-content\">\n" +
+                                "\n" +
+                                "    </div>\n" +
+                                "    <div data-role=\"footer\" data-position=\"fixed\">\n" +
+                                "        <h2>如东沿海经济开发区管理委员会</br>数据中心技术支持</h2>\n" +
+                                "    </div>\n" +
+                                "</div>");
+                            $("#ok").empty();
+                            $("#ok").append(gk);
+                            tubiao1(obj.normal, obj.exceed, obj.disconnection, obj.publishTime);
+                            tubiao2(obj1.ch4, obj1.thc, obj1.nmhc);
+                        });
+                    }
+                    else {
+                        $("#popdiv").text("账号或密码输入出错!!");
+
+                    }
+
+                });
+            });
+        });
+    </script>
+</head>
+<body id="ok">
+<div data-role="page" id="pageone">
+    <div data-role="header">
+        <p style="font-size:2.2rem;text-align: center">污染源在线监控</p>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div class="login-input-box">
+            <div class="logo" align="center">
+                <img src="./vocs/1.png"style="height: 60px">
+                <p> </p>
+            </div>
+            <div class="line1">
+                <img src="#" href="#" class="ui-btn ui-corner-all ui-icon-user ui-btn-icon-notext">
+                <input type="text" name="fname" class="user" value="用户名" onfocus="if(value=='用户名') {value=''}"
+                       onblur="if (value=='') {value='用户名'}" data-role="none">
+            </div>
+            <div class="line2">
+                <img src="#" class="ui-btn ui-corner-all ui-icon-lock ui-btn-icon-notext">
+                <input type="text" name="lname" class="lock" value="密码" onfocus="if(value=='密码') {value=''}"
+                       onblur="if (value=='') {value='密码'}" data-role="none">
+            </div>
+            <div class="chose">
+                <button class="login">登陆</button>
+            </div>
+
+            <div align="center" id="popdiv"style="color: red"></div>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h1>如东沿海经济开发区管理委员会</h1>
+        <h3>数据中心技术支持</h3></div>
+</div>
+</body>
+</html>
