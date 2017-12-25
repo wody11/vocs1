@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>污染源在线监控微信端</title>
+    <link rel="icon" href="./vocs/1.png" type="image/x-icon"/>
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts-en.common.min.js"></script>
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+
+        .login-input-box {
+            width: 80%;
+            margin: auto;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .logo p {
+            font-size: 1.6rem;
+            text-align: center;
+            font-weight: bolder;
+            color: dimgray;
+        }
+
+        .user, .lock, .mail {
+            float: left;
+            width: 85%;
+            height: 35px;
+            border: none;
+            padding-left: 3%;
+            line-height: 2.4rem;
+            font-size: 1.2rem;
+            outline: none;
+            color: #4d4d4d;
+            background: none;
+        }
+
+        .line1, .line2, .line3 {
+            width: 98%;
+            overflow: hidden;
+            border-bottom: 1px solid #aaa;
+            padding-left: 2%;
+            margin-top: 40px;
+        }
+
+        .login-wrap .line1 {
+            margin-top: 80px;
+        }
+
+        .line1 img, .line2 img, .line3 img {
+            float: left;
+            padding-top: 2px;
+        }
+
+        .register, .forgive {
+            margin-top: 20px;
+            color: #4d4d4d !important;
+            font-weight: normal;
+            padding: 0px 2%;
+        }
+
+        .register {
+            float: left;
+        }
+
+        .forgive {
+            float: right;
+        }
+
+        .chose .login {
+            float: left;
+            margin: 40px 0;
+            width: 100%;
+            font-size: 1.2rem;
+            line-height: 2.6rem;
+            text-align: center;
+            color: #4d4d4d !important;
+            background: #e5e5e5;
+            border-radius: 20px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+
+
+            var tubiao1 = function (zc, cb, lx, sj) {
+
+                var myChart = echarts.init(document.getElementById('main'));
+
+                var option = {
+                    title: {
+                        text: "企业在线监控情况汇总表",
+                        subtext: "统计数据时间点" + sj,
+                        x: "center"
+                    },
+                    tooltip: {
+                        trigger: "item",
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: "vertical",
+                        x: "left",
+                        data: ["正常", "超标", "断线"]
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataView: {
+                                show: true,
+                                readOnly: true
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            }
+                        }
+                    },
+                    series: [
+                        {
+                            name: "汇总情况",
+                            type: "pie",
+                            radius: "55%",
+                            center: ["50%", "60%"],
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        formatter: "{b}: {c} ({d}%)"
+                                    }
+                                }
+                            },
+                            data: [
+                                {
+                                    value: zc,
+                                    name: "正常"
+                                },
+                                {
+                                    value: cb,
+                                    name: "超标"
+                                },
+                                {
+                                    value: lx,
+                                    name: "断线"
+                                }
+                            ]
+                        }
+                    ],
+                    color: ["rgb(0, 128, 0)", "rgb(255,0,0)", "rgb(255,165,0)"]
+                };
+
+                myChart.setOption(option);
+            };
+            var tubiao2 = function (jw, zt, fj) {
+
+                var myChart = echarts.init(document.getElementById('main1'));
+
+                var option = {
+                    title: {
+                        text: "2017年废气排放总量",
+                        subtext: "单位（顿）",
+                        x: "center"
+                    },
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    legend: {
+                        data: ["排放量"],
+                        x: "left",
+                        y: "center"
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {
+                                show: false
+                            },
+                            dataView: {
+                                show: true,
+                                readOnly: true
+                            },
+                            magicType: {
+                                show: false,
+                                type: ["line", "bar"]
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            }
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [
+                        {
+                            type: "category",
+                            data: ["甲烷", "总烃", "非甲烷总烃"]
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: "value"
+                        }
+                    ],
+                    series: [
+                        {
+                            name: "排放量",
+                            type: "bar",
+                            data: [jw, zt, fj],
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+
+
+                myChart.setOption(option);
+            };
+            var tubiao3 = function (tm0, tm1, tm2, tm3, tm4, tm5, tm6, tm7, tm8, tm9, tm10, tm11, tm12, tm13, tm14, tm15, tm16, tm17, tm18, tm19, tm20, tm21, tm22, tm23, tm24, tm25, sz0, sz1, sz2, sz3, sz4, sz15, sz6, sz7, sz8, sz9, sz10, sz11, sz12, sz13, sz14, sz15, sz16, sz17, sz18, sz19, sz20, sz21, sz22, sz23, sz24, sz25, jw0, jw1, jw2, jw3, jw4, jw15, jw6, jw7, jw8, jw9, jw10, jw11, jw12, jw13, jw14, jw15, jw16, jw17, jw18, jw19, jw20, jw21, jw22, jw23, jw24, jw25, fj0, fj1, fj2, fj3, fj4, fj15, fj6, fj7, fj8, fj9, fj10, fj11, fj12, fj13, fj14, fj15, fj16, fj17, fj18, fj19, fj20, fj21, fj22, fj23, fj24, fj25) {
+
+                    var myChart = echarts.init(document.getElementById('main2'));
+
+                    var option = {
+                        title: {
+                            text: "检测因子变化趋势",
+                            y: "top",
+                            x: "center",
+                            subtext: "每小时一个数据"
+                        },
+                        tooltip: {
+                            trigger: "axis",
+                            show: true
+                        },
+                        legend: {
+                            data: ["总烃", "甲烷", "非甲烷总烃"],
+                            orient: "horizontal",
+                            y: "bottom"
+
+                        },
+                        toolbox: {
+                            show: false,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                dataView: {
+                                    show: true,
+                                    readOnly: true
+                                },
+                                magicType: {
+                                    show: false,
+                                    type: ["line", "bar"]
+                                },
+                                restore: {
+                                    show: true
+                                },
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },                        xAxis: [
+                            {
+                                type: "category",
+                                boundaryGap: false,
+                                data: [tm0, tm1, tm2, tm3, tm4, tm5, tm6, tm7, tm8, tm9, tm10, tm11, tm12, tm13, tm14, tm15, tm16, tm17, tm18, tm19, tm20, tm21, tm22, tm23, tm24, tm25],
+                                splitLine: {
+                                    show: true
+                                }
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: "value",
+                                name: "mg/m3"
+                            }
+                        ],
+                        series: [
+                            {
+                                name: "总烃",
+                                type: "line",
+                                data: [sz0, sz1, sz2, sz3, sz4, sz15, sz6, sz7, sz8, sz9, sz10, sz11, sz12, sz13, sz14, sz15, sz16, sz17, sz18, sz19, sz20, sz21, sz22, sz23, sz24, sz25],
+                                markPoint: {
+                                    data: [
+                                        {
+                                            type: "max",
+                                            name: "最大值"
+                                        },
+                                        {
+                                            type: "min",
+                                            name: "最小值"
+                                        }
+                                    ]
+                                },
+                                smooth: true
+                            },
+                            {
+                                name: "甲烷",
+                                type: "line",
+                                data: [jw0, jw1, jw2, jw3, jw4, jw15, jw6, jw7, jw8, jw9, jw10, jw11, jw12, jw13, jw14, jw15, jw16, jw17, jw18, jw19, jw20, jw21, jw22, jw23, jw24, jw25],
+                                markPoint: {
+                                    data: [
+                                        {
+                                            type: "max",
+                                            name: "最大值"
+                                        },
+                                        {
+                                            type: "min",
+                                            name: "最小值"
+                                        }
+                                    ]
+                                },
+                                smooth: true
+                            },
+                            {
+                                type: "line",
+                                name: "非甲烷总烃",
+                                data: [fj0, fj1, fj2, fj3, fj4, fj15, fj6, fj7, fj8, fj9, fj10, fj11, fj12, fj13, fj14, fj15, fj16, fj17, fj18, fj19, fj20, fj21, fj22, fj23, fj24, fj25],
+                                smooth: true,
+                                markPoint: {
+                                    data: [{
+                                        type: "max",
+                                        name: "最大值"
+                                    },
+                                        {
+                                            type: "min",
+                                            name: "最小值"
+                                        }]
+                                }
+                            }
+                        ],
+                        color: ["#ff7f50", "#87cefa", "#da70d6"]
+                    }
+
+
+                    myChart.setOption(option);
+                }
+            ;$(document).ready(function () {
+                window.qj;
+
+                function getData1(url, areaType, status, sessionId) {
+                    var defer = $.Deferred();
+                    $.ajax({
+                        url: url,
+                        data: {areaType, status, sessionId},
+                        dataType: 'JSON',
+                        type: 'post',
+                        success: function (data) {
+                            defer.resolve(data)
+                        }
+                    });
+                    return defer.promise();
+                }
+
+                function getData2(url, areaType, sessionId) {
+                    var defer = $.Deferred();
+                    $.ajax({
+                        url: url,
+                        data: {areaType, sessionId},
+                        dataType: 'JSON',
+                        type: 'post',
+                        success: function (data) {
+                            defer.resolve(data)
+                        }
+                    });
+                    return defer.promise();
+                }
+
+                function getData3(url, userName, password) {
+                    var defer = $.Deferred();
+                    $.ajax({
+                        url: url,
+                        data: {userName, password},
+                        dataType: 'JSON',
+                        type: 'post',
+                        success: function (data) {
+                            defer.resolve(data)
+                        }
+                    });
+                    return defer.promise();
+                };
+
+                function getData4(url, id, portType, sessionId) {
+                    var defer = $.Deferred();
+                    $.ajax({
+                        url: url,
+                        data: {id, portType, sessionId},
+                        dataType: 'JSON',
+                        type: 'post',
+                        success: function (data) {
+                            defer.resolve(data)
+                        }
+                    });
+                    return defer.promise();
+                };
+
+                function getData5(url, portId, fatorId, date, sessionId) {
+                    var defer = $.Deferred();
+                    $.ajax({
+                        url: url,
+                        data: {portId, fatorId, date, sessionId},
+                        dataType: 'JSON',
+                        type: 'post',
+                        success: function (data) {
+                            defer.resolve(data)
+                        }
+                    });
+                    return defer.promise();
+                };
+                $(document).on("click", "#pagetwo", function () {
+                    var qj1 = window.qj;
+                    if (qj1 == undefined) {
+                        window.location = "http://www.ntskytech.com/vocs";
+                    }
+
+                });
+                $(document).on("click", "#pagethree", function () {
+                    var qj1 = window.qj;
+                    if (qj1 == undefined) {
+                        window.location = "http://www.ntskytech.com/vocs";
+                    }
+
+                });
+                $(document).on("click", "#pagefour", function () {
+                    var qj1 = window.qj;
+                    if (qj1 == undefined) {
+                        window.location = "http://www.ntskytech.com/vocs";
+                    }
+
+                });
+
+                $("#dl").click(function () {
+
+                    var url1 = "http://www.ntskytech.com/apis";
+                    var url2 = "http://www.ntskytech.com/api";
+                    var url3 = "http://www.ntskytech.com/apic";
+                    var url4 = "http://www.ntskytech.com/apid";
+                    var url5 = "http://www.ntskytech.com/apih";
+                    var name = $("input[name='fname']").val();
+                    var pw = $("input[name='lname']").val();
+                    $.mobile.loading('show', {
+                        text: '登录中...',
+                        textVisible: true,
+                        theme: 'a',
+                        textonly: false,
+                        html: ""
+                    });
+
+                    $.when(getData3(url1, name, pw)).done(function (data) {
+                        $.mobile.loading('hide');
+                        var date = data.result;
+                        if (date.length > 10) {
+                            $("#tz").click();
+                            $.mobile.loading('show', {
+                                text: '加载中...',
+                                textVisible: true,
+                                theme: 'a',
+                                textonly: false,
+                                html: ""
+                            });
+                            var obj = eval("(" + date + ")");
+                            qj = obj.sessionId;
+                            $.when(getData2(url2, "", qj)).done(function (data) {
+
+                                var date = jQuery.parseJSON(data.result);
+                                var obj = date.modelSituationOverall;
+                                var obj1 = date.modelSituationGas;
+                                $("#enter").empty();
+
+                                $("#enter").append("<div id=\"main\" style=\"height: 300px\"></div>\n" +
+                                    "        </br>\n" +
+                                    "        <div id=\"main1\" style=\"height: 300px\"></div>");
+                                tubiao1(obj.normal, obj.exceed, obj.disconnection, obj.publishTime);
+                                tubiao2(obj1.ch4, obj1.thc, obj1.nmhc);
+                            });
+                            $.when(getData1(url3, "", "cb", qj)).done(function (data) {
+                                var date = jQuery.parseJSON(data.result);
+                                var obj = date.datas;
+                                var i = 0;
+                                $.mobile.loading('hide');
+                                $.each(obj, function (idx, itm) {
+                                    i++;
+                                    $("#cb").append("<li class=\"company\" id=\"" + itm.id + "\">" + "<a href=\"#detail\" data-rel=\"dialog\" data-transition=\"pop\">" + i + "." + itm.name + "<span class=\"ui-li-count\">" + "废气排口：" + itm.gasNum + "</span>" + "</a></li>");
+                                })
+                            });
+                            $.when(getData1(url3, "", "zc", qj)).done(function (data) {
+                                var date = jQuery.parseJSON(data.result);
+                                var obj = date.datas;
+                                var i = 0;
+
+                                $.each(obj, function (idx, itm) {
+                                    i++;
+                                    $("#zc").append("<li class=\"company\" id=\"" + itm.id + "\">" + "<a href=\"#detail\" data-rel=\"dialog\" data-transition=\"pop\">" + i + "." + itm.name + "<span class=\"ui-li-count\">" + "废气排口：" + itm.gasNum + "</span>" + "</a></li>");
+                                });
+                            });
+                            var gd;
+                            $(document).on("pageinit", "#pagethree", "#pagefour", function () {
+                                $(".company").on("tap", function () {
+                                    $("#dt").empty();
+                                    $("#dt").append("<li><p style=\"font-size: large;text-align: center\"><img style=\"vertical-align:middle;height: 200px\" src=\"http://img.zcool.cn/community/012c0258d8bb35a801219c77694def.gif\"/></br>正在获取中....</p></li>");
+                                    var id = $(this).context.id;
+                                    // console.log(id);
+                                    $.when(getData4(url4, id, "WG", qj)).done(function (data) {
+                                        var date = jQuery.parseJSON(data.result);
+                                        var obj = date[0].factors;
+                                        // console.log(date[0].id);
+                                        // console.log(date.length);
+                                        gd = date[0].id;
+                                        var gd1=obj[0].id;
+                                        var gd2=obj[1].id;
+                                        var gd3=obj[2].id;
+                                        $("#dt").empty();
+                                        var i = 1;
+                                        $.each(date, function (idx, itm) {
+                                            i++;
+                                            $("#dt").append("<li>" + itm.name + ":</li>" + "<li>" + "<div class=\"ui-grid-b\">" + "<div style=\"background-color: lightgray;display:flex;display: -webkit-flex;align-items:center;border-right:1px dashed #000;height: 100px;font-weight: lighter;text-align: left;padding: 1px \" class=\"ui-block-a\"><span>" + obj[0].name + "   : <br>   " + obj[0].value + obj[0].unit + "</span></div>" + "<div style=\"background-color: lightgray;border-right:1px dashed #000;display:flex;display: -webkit-flex;align-items:center;display: -webkit-flex;align-items:center;height: 100px;font-weight: lighter;text-align: left;padding: 1px \" class=\"ui-block-b\"><span>" + obj[1].name + "   :  <br>  " + obj[1].value + obj[1].unit + "</span></div>" + "<div style=\"background-color: lightgray;border: 1px solid lightgray;display:flex;display: -webkit-flex;align-items:center;height: 100px;font-weight: lighter;text-align: left;padding: 1px \" class=\"ui-block-c\"><span>" + obj[2].name + "   : <br>   " + obj[2].value + obj[2].unit + "</span></div>" + "<br>" + "<div id=\"main" + i + "\"style=\"height: 400px;margin-top: 100px\"></div>");
+
+                                        });
+                                        $("#main2").append("<li><p style=\"font-size: large;text-align: center\"><img style=\"vertical-align:middle;height: 200px\" src=\"http://img.zcool.cn/community/012c0258d8bb35a801219c77694def.gif\"/></br>加载历史数据....</p></li>");
+                                        var sz = new Array();
+                                        var tm = new Array();
+                                        var jw = new Array();
+                                        var fj = new Array();
+                                        $("#dt").listview('refresh');
+                                        $.when(getData5(url5, gd, gd1, "", qj)).done(function (data) {
+                                            var date = jQuery.parseJSON(data.result);
+                                            var i = -1;
+                                            $.each(date, function (idx, itm) {
+                                                i++;
+                                                sz[i] = itm.value;
+                                                tm[i] = itm.time.substring(11, 13);
+                                            });
+                                            $.when(getData5(url5, gd, gd2, "", qj)).done(function (data) {
+                                                var date = jQuery.parseJSON(data.result);
+                                                var i = -1;
+                                                $.each(date, function (idx, itm) {
+                                                    i++;
+                                                    jw[i] = itm.value;
+
+                                                });
+                                                $.when(getData5(url5, gd, gd3, "", qj)).done(function (data) {
+                                                    var date = jQuery.parseJSON(data.result);
+                                                    var i = -1;
+                                                    $.each(date, function (idx, itm) {
+                                                        i++;
+                                                        fj[i] = itm.value;
+
+                                                    });
+                                                    $("#main2").empty();
+                                                    tubiao3(tm[0], tm[1], tm[2], tm[3], tm[4], tm[5], tm[6], tm[7], tm[8], tm[9], tm[10], tm[11], tm[12], tm[13], tm[14], tm[15], tm[16], tm[17], tm[18], tm[19], tm[20], tm[21], tm[22], tm[23], tm[24], tm[25], sz[0], sz[1], sz[2], sz[3], sz[4], sz[5], sz[6], sz[7], sz[8], sz[9], sz[10], sz[11], sz[12], sz[13], sz[14], sz[15], sz[16], sz[17], sz[18], sz[19], sz[20], sz[21], sz[22], sz[23], sz[24], sz[25], jw[0], jw[1], jw[2], jw[3], jw[4], jw[5], jw[6], jw[7], jw[8], jw[9], jw[10], jw[11], jw[12], jw[13], jw[14], jw[15], jw[16], jw[17], jw[18], jw[19], jw[20], jw[21], jw[22], jw[23], jw[24], jw[25], fj[0], fj[1], fj[2], fj[3], fj[4], fj[5], fj[6], fj[7], fj[8], fj[9], fj[10], fj[11], fj[12], fj[13], fj[14], fj[15], fj[16], fj[17], fj[18], fj[19], fj[20], fj[21], fj[22], fj[23], fj[24], fj[25]);
+                                                });
+
+                                            });
+
+                                        });
+
+
+                                    });
+
+                                    event.stopPropagation();
+                                });
+
+                            });
+                        }
+                        else {
+                            $("#popdiv").text("账号或密码输入出错!!");
+                            $.mobile.loading('hide');
+
+                        }
+
+                    });
+
+                });
+                // $(document).on("pageinit", "#pagethree","#pagefour", function () {
+                //     $(".company").on("tap", function () {
+                //         var id = $(this).context.id;
+                //         console.log(id);
+                //         // $.when(getData4(url4, id, "WG", qj)).done(function (data) {
+                //         //     var date = jQuery.parseJSON(data.result);
+                //         //     var obj = date[0].factors;
+                //         //     console.log(obj);
+                //         //     console.log(date);
+                //         //     // $.each(date, function (idx, itm) {
+                //         //     //     alert(itm.name, obj[1].name);
+                //         //     //     $("#dt").append("<li>" + itm.name + itm.invokeTimeText + "</li>" + "<li>" + "<div class=\"ui-grid-b\">" + "<div class=\"ui-block-a\"><span>" + obj[0].name + "</span><span>   :    " + obj[0].value + obj[0].unit + "</span></div>" + "<div class=\"ui-block-b\"><span>" + obj[1].name + "</span><span>   :    " + obj[1].value + obj[1].unit + "</span></div>" + "<div class=\"ui-block-c\"><span>" + obj[2].name + "</span><span>   :    " + obj[2].value + obj[2].unit + "</span></div>");
+                //         //     // })
+                //         // });
+                //         // return false;
+                //     });
+                //
+                // });
+
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+<div data-role="page" id="pageone">
+    <div data-role="header" style="text-align: center">
+        <p style="font-size:1.8rem;font-family: sans-serif;text-align: center">VOCS在线监控-微信端</p>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div class="login-input-box">
+            <div class="logo" align="center"><img
+                    style="vertical-align:middle;height: 50px" src="./vocs/1.png">
+                <p>登录界面</p>
+            </div>
+            <div class="line1">
+                <img src="#" href="#" class="ui-btn ui-corner-all ui-icon-user ui-btn-icon-notext">
+                <input type="text" name="fname" class="user" value="用户名" onfocus="if(value=='用户名') {value=''}"
+                       onblur="if (value=='') {value='用户名'}" data-role="none">
+            </div>
+            <div class="line2">
+                <img src="#" class="ui-btn ui-corner-all ui-icon-lock ui-btn-icon-notext">
+                <input type="text" name="lname" class="lock" value="密码" onfocus="if(value=='密码') {value=''}"
+                       onblur="if (value=='') {value='密码'}" data-role="none">
+            </div>
+            <div class="chose">
+                <button id="dl" class="login">登陆</button>
+                <a id="tz" href="#pagetwo" style="display: none"></a>
+            </div>
+
+            <div align="center" id="popdiv" style="color: red"></div>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h1>如东沿海经济开发区管理委员会</h1>
+        <h3>数据中心技术支持</h3></div>
+</div>
+<div data-role="page" id="pagetwo">
+    <div data-role="header" style="text-align: center">
+        <p style="font-size: large;text-align: center"><img style="vertical-align:middle;height: 30px"
+                                                            src="./vocs/1.png"/>污染源在线监控</p>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="home">概况统计</a></li>
+                <li><a href="#pagethree" data-icon="check">正常排放企业</a></li>
+                <li><a href="#pagefour" data-icon="alert">超标排放企业</a></li>
+
+            </ul>
+        </div>
+    </div>
+    <div data-role="main" class="ui-content">
+        <div id="enter">
+            <div style="text-align: center;margin-top: 10%">
+                <a href="#pageone">请等待加载，如长时间未加载请点击</br>返回登录界面</a>
+            </div>
+        </div>
+
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h2>如东沿海经济开发区管理委员会</br>数据中心技术支持</h2>
+    </div>
+</div>
+<div data-role="page" id="pagethree">
+    <div data-role="header">
+        <p style="font-size: large;text-align: center"><img style="vertical-align:middle;height: 30px"
+                                                            src="./vocs/1.png"/>污染源在线监控</p>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagetwo" data-icon="home">概况统计</a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="check">正常排放企业</a></li>
+                <li><a href="#pagefour" data-icon="alert">超标排放企业</a></li>
+
+            </ul>
+        </div>
+    </div>
+    <div data-role="main" class="ui-content">
+        <ul id="zc" data-role="listview" data-inset="true">
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h2>如东沿海经济开发区管理委员会</br>数据中心技术支持</h2>
+    </div>
+</div>
+
+<div data-role="page" id="pagefour">
+    <div data-role="header">
+        <p style="font-size: large;text-align: center"><img style="vertical-align:middle;height: 30px"
+                                                            src="./vocs/1.png"/>污染源在线监控</p>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagetwo" data-icon="home">概况统计</a></li>
+                <li><a href="#pagethree" data-icon="check">正常排放企业</a></li>
+                <li><a href="#" class="ui-btn-active ui-state-persist" data-icon="alert">超标排放企业</a></li>
+
+            </ul>
+        </div>
+    </div>
+    <div data-role="main" class="ui-content">
+        <ul id="cb" data-role="listview" data-inset="true">
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h2>如东沿海经济开发区管理委员会</br>数据中心技术支持</h2>
+    </div>
+</div>
+
+
+<div data-role="page" id="detail">
+    <div data-role="header">
+        <p style="font-size: large;text-align: center"><img style="vertical-align:middle;height: 30px"
+                                                            src="./vocs/1.png"/>污染源在线监控</p>
+    </div>
+    <div id="dt1" data-role="main" class="ui-content">
+        <ul id="dt" data-role="listview" data-inset="true">
+
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h2>如东沿海经济开发区管理委员会</br>数据中心技术支持</h2>
+    </div>
+</div>
+</body>
+</html>
